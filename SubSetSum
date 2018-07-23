@@ -10,7 +10,6 @@ public class SubSetSum {
 		if(index<0) {
 			resultSet = new ArrayList<Integer>();	
 			resultSet.add(0);
-			return resultSet;
 		}
 		
 		else {			
@@ -30,10 +29,11 @@ public class SubSetSum {
 				newSet.add(newSum);				
 			}	
 			
-	
-		return newSet;
-		
+			resultSet = newSet;
+				
 		}		
+		
+		return resultSet;
 	}
 	
 
@@ -50,4 +50,3 @@ public class SubSetSum {
 	}
 
 }
-
