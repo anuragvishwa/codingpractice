@@ -1,0 +1,51 @@
+
+public class RatInAMaze {
+	
+	 static int IMatrix[][] = {{1, 0, 0, 0},
+				               {1, 1, 0, 1},
+				               {0, 1, 0, 0},
+				               {1, 1, 1, 1}
+												};
+	 static int OMatrix[][] = {{0, 0, 0, 0},
+				  {0, 0, 0, 0},
+				  {0, 0,0, 0},
+				  {0, 0,0, 0}
+				   };
+	 static Boolean ind = false;
+		
+	public static void main(String[] args) {
+		       
+        Boolean path = isPath(IMatrix,OMatrix,0,0);
+        System.out.println(ind);
+        System.out.println("");
+       
+        for (int i = 0; i < OMatrix.length; i++) {
+            for (int j = 0; j < OMatrix[i].length; j++) {
+                System.out.print(OMatrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+	
+	static Boolean isPath(int[][] IMatrix,int[][] OMatrix,int row,int col) {
+		
+		if(row<0 || row>= IMatrix.length || col<0 || col>= IMatrix[0].length ) 
+			return false;
+		
+		if(row == IMatrix.length-1 && col == IMatrix.length-1 && IMatrix[row][col]==1) {
+			ind=true;				
+		}
+		
+		if(IMatrix[row][col]==1) {
+			OMatrix[row][col]=1;
+			isPath(IMatrix, OMatrix, row+1, col);  //right
+ 			isPath(IMatrix, OMatrix, row, col+1);  //down
+ 			
+		}
+		
+	
+		return true;
+		
+	}
+
+}
