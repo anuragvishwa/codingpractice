@@ -17,6 +17,12 @@ static int getCoinChange(int[] coins,int amount,int i) {
 		if(amount<0)
 			return 0;
 		
+		// If there are no coins and n  
+       		// is greater than 0, then no 
+       		// solution exist 
+		if(amount>=1 && coins.length<=0)
+			return 0;
+		
 		
 		return (getCoinChange(coins, amount-coins[i], i)
 				+ getCoinChange(coins, amount, i+1));
