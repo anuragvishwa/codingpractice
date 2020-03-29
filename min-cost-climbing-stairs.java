@@ -67,3 +67,38 @@ public class StaircaseDP {
 	
 
 }
+
+// Space optimized solution:
+public class StaircaseDP {
+	
+	public static void main(String[] args) {
+		
+		int[] cost = {1, 100, 1, 1, 1, 100, 1, 1, 100, 1};
+		
+		System.out.println(minCost(cost));
+		
+	}
+	
+	 static int minCost(int[] cost){
+	        
+		
+		 int dp0 = cost[0];
+		 int dp1 = cost[1];
+		 
+		 
+		 	int l = cost.length;
+	      
+	        
+	        for(int i=2;i<l;i++) {
+	        	int dp2 = Math.min(dp1, dp0)+cost[i];
+	        	
+	        	dp0=dp1;
+	        	dp1=dp2;
+	        }
+	        
+	        return Math.min(dp0,dp1);
+	    }
+	
+
+}
+
