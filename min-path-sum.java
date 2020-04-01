@@ -123,3 +123,46 @@ class Solution {
 		return 0;
 	}
 }
+
+//Dynamic Programming Solution
+public class MinPathSum {
+	
+	public static void main(String[] args) {
+		int matrix[][] = {
+				{1,2,5},{3,2,1}
+		};
+		
+		int col = matrix[0].length;
+		int row = matrix.length;
+		
+		int sol[][]= new int[matrix.length][matrix[0].length];
+		
+		System.out.println(mps(matrix,row, col,sol));
+
+	}
+	
+	static int mps(int[][] matrix,int row,int col,int[][] sol) {
+
+		
+		sol[0][0] = matrix[0][0];
+		//filling rows:
+		for(int i = 1;i<col;i++) {
+			sol[0][i] = sol[0][i-1] + matrix[0][i]; 
+		}
+		
+		//filling columns
+		for(int j = 1;j<row;j++) {
+			sol[j][0] = sol[j-1][0] + matrix[j][0]; 
+		}
+		
+		//filling others
+		
+		for(int k=1;k<row;k++) {
+			for(int l=1;l<col;l++) {
+				sol[k][l]= Math.min(sol[k-1][l], sol[k][l-1]) + matrix[k][l];
+			}
+		}
+				
+				return sol[row-1][col-1];
+	}
+}
