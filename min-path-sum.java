@@ -75,3 +75,51 @@ public class MinPathSum {
 	}
 
 }
+
+//Top Down
+class Solution {
+    public int minPathSum(int[][] grid) {
+        return  mps(grid,grid.length-1,grid[0].length-1);
+  }
+    
+   static int mps(int[][] matrix,int i,int j) {
+		System.out.println( " " + "i "+i +" j "+j);
+	
+		
+		
+		if(i == 0 && j == 0) {
+			return matrix[i][j];
+		}
+		
+		if(i > 0 && j > 0) {
+		
+		
+
+		int right = matrix[i][j] + mps(matrix, i-1, j);
+		
+	
+	
+
+		int down = matrix[i][j] + mps(matrix, i, j-1);
+		
+
+		
+		return Math.min(right, down);
+		
+		}
+		
+		
+		if(i>0) {
+			
+			return matrix[i][j]+ mps(matrix, i-1 , j);
+			
+			
+		}
+		
+		if(j>0) {
+			return matrix[i][j]+ mps(matrix, i, j-1);
+		}
+		
+		return 0;
+	}
+}
