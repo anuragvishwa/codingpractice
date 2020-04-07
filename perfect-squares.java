@@ -50,3 +50,45 @@ class Solution {
 		return minWays;
 	}
 }
+
+//Dynamic programming -1 
+class Solution {
+    public int numSquares(int n) {
+        int dp[] = new int[n];
+        Arrays.fill(dp,0);
+        return numSquare(n,dp);
+    }
+    
+    static Boolean perfectNo(int num) {
+
+		double sq = Math.sqrt(num);
+		return ((sq - Math.floor(sq)) == 0);
+	}
+    
+    static int numSquare(int n,int[] dp) {
+
+		if (perfectNo(n)) {
+			return 1;
+		}
+        
+        if(dp[n-1]!=0){
+            return dp[n-1];
+        }
+
+		int minWays = Integer.MAX_VALUE;
+
+		for (int i = 1; i < n; i++) {
+			int ways = 0;
+			if (perfectNo(i)) {
+				ways = 1 + numSquare((n - i),dp);
+				if (ways < minWays) {
+					minWays = ways;
+				}
+			}
+
+		}
+        
+        dp[n-1] = minWays;
+		return minWays;
+	}
+}
