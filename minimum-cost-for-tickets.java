@@ -85,3 +85,47 @@ public class MinCostTicket {
 	}
 
 }
+//DP solution
+class Solution {
+    public int mincostTickets(int[] days, int[] costs) {
+        
+        int[] dp = new int[days.length];
+		Arrays.fill(dp, 0);
+        
+        return minCostTicket(days,costs,0,dp);
+        
+    }
+    
+     int minCostTicket(int[] days, int[] cost, int i, int[] dp) {
+
+		if (i >= days.length) {
+			return 0;
+		}
+
+		if (dp[i] != 0) {
+			return dp[i];
+		}
+
+		int k;
+		// Attempt to buy one day:
+		int cost0 = cost[0] + minCostTicket(days, cost, i + 1, dp);
+
+		// Attempt to buy for 7 days:
+		for (k = i; k < days.length; k++)
+			if (days[k] >= days[i] + 7)
+				break;
+		int cost1 = cost[1] + minCostTicket(days, cost, k, dp);
+
+		// Attempt to buy for 30 days:
+		for (k = i; k < days.length; k++)
+			if (days[k] >= days[i] + 30)
+				break;
+		int cost2 = cost[2] + minCostTicket(days, cost, k, dp);
+
+		int result = Math.min(cost0, Math.min(cost1, cost2));
+
+		dp[i] = result;
+
+		return result;
+	}
+}
