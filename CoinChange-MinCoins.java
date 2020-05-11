@@ -29,9 +29,9 @@ class Solution {
 			return Integer.MAX_VALUE -1;
 		}
     
-        	if (i >= coins.length && amount != 0) {
-			return -1;
-		}
+//         	if (i >= coins.length && amount != 0) {
+// 			return -1;
+// 		}
 
         
 		if (amount == 0) {
