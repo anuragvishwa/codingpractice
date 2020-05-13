@@ -46,3 +46,35 @@ class Solution {
 
 	}
 }
+
+//Other method : Recursive
+
+static int coinChange2(int[] coins, int amount) {
+
+		if (amount == 0) {
+			return 0;
+		}
+
+		if (amount < 0) {
+			return Integer.MAX_VALUE;
+		}
+
+		int result = Integer.MAX_VALUE;
+
+		for (int i = 0; i < coins.length; i++) {
+
+			if (coins[i] <= amount) {
+
+				int ways = 1 + coinChange2(coins, amount - coins[i]);
+				if (ways != Integer.MAX_VALUE && ways < result) {
+					result = ways;
+				}
+
+				System.out.println(" i " + i + " amount " + amount + " result " + result + " ways " + ways);
+
+			}
+		}
+
+		return result;
+
+	}
