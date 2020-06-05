@@ -1,3 +1,4 @@
+//Bottom Up- Recursive
 public class SubSetSum{
     public static void main(String[] args){
         int[] arr = {3,34,4,12,5,2};
@@ -23,3 +24,20 @@ public class SubSetSum{
     }
 
 }
+
+//Top Down Recursive
+public static boolean getSum(int[] nums, int i, int sum) {
+		if (sum < 0 || i >= nums.length) {
+			return false;
+		}
+
+		if (sum == 0) {
+			return true;
+		}
+
+		Boolean taken = getSum(nums, i + 1, sum - nums[i]);
+		Boolean notTaken = getSum(nums, i + 1, sum);
+
+		return (taken || notTaken);
+
+	}
