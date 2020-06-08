@@ -1,4 +1,4 @@
-
+//Recursive Approach:
 public class LISrecursion {
 	
 	public static void main(String[] args) {
@@ -24,4 +24,47 @@ public class LISrecursion {
 		
 	}
 	
+}
+//Dp Approach:
+import java.util.Arrays;
+
+public class NoLIS {
+
+	public static void main(String[] args) {
+		int[] nums = { 1, 3, 5, 4, 7 };
+		System.out.println(getLIS(nums));
+
+	}
+
+	static int getLIS(int[] nums) {
+		int n = nums.length;
+		int len[] = new int[n];
+		int max = 0;
+
+		for (int i = 0; i < n; i++) {
+			len[i] = 1;
+		}
+
+		for (int i = 1; i < n; i++) {
+			for (int j = 0; j < i; j++) {
+				if (nums[i] > nums[j]) {
+					if (len[i] < len[j] + 1) {
+						len[i] = len[j] + 1;
+					}
+				}
+			}
+		}
+
+		System.out.println(Arrays.toString(len));
+
+		for (int i = 0; i < n; i++) {
+			if (max < len[i]) {
+				max = len[i];
+			}
+		}
+
+		return max;
+
+	}
+
 }
