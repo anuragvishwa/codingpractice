@@ -1,70 +1,45 @@
 //Recursive Approach:
-public class LISrecursion {
-	
-	public static void main(String[] args) {
-		int[] nums = {50,3,10,7,40,80};
-		System.out.println(LIS(nums,-1,0));
-	}
+public class Solution {
 
-	public static int LIS(int[] nums,int prev,int current) {
-				
-		if(current==nums.length-1) {
-			return 1;
-		}
-		
-		int taken= 0;
-		int notTaken = 0;		
-		if(nums[current]>=prev) {
-			taken =1+ LIS(nums,nums[current],current+1);
-		}				
-		notTaken = LIS(nums,prev,current+1);				
-		return Math.max(taken, notTaken);
-	
-		
-		
-	}
-	
+    public int lengthOfLIS(int[] nums) {
+        return lengthofLIS(nums, Integer.MIN_VALUE, 0);
+    }
+
+    public int lengthofLIS(int[] nums, int prev, int curpos) {
+        if (curpos == nums.length) {
+            return 0;
+        }
+        int taken = 0;
+        if (nums[curpos] > prev) {
+            taken = 1 + lengthofLIS(nums, nums[curpos], curpos + 1);
+        }
+        int nottaken = lengthofLIS(nums, prev, curpos + 1);
+        return Math.max(taken, nottaken);
+    }
 }
 //Dp Approach:
-import java.util.Arrays;
+public class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int memo[][] = new int[nums.length + 1][nums.length];
+        for (int[] l : memo) {
+            Arrays.fill(l, -1);
+        }
+        return lengthofLIS(nums, -1, 0, memo);
+    }
+    public int lengthofLIS(int[] nums, int previndex, int curpos, int[][] memo) {
+        if (curpos == nums.length) {
+            return 0;
+        }
+        if (memo[previndex + 1][curpos] >= 0) {
+            return memo[previndex + 1][curpos];
+        }
+        int taken = 0;
+        if (previndex < 0 || nums[curpos] > nums[previndex]) {
+            taken = 1 + lengthofLIS(nums, curpos, curpos + 1, memo);
+        }
 
-public class NoLIS {
-
-	public static void main(String[] args) {
-		int[] nums = { 1, 3, 5, 4, 7 };
-		System.out.println(getLIS(nums));
-
-	}
-
-	static int getLIS(int[] nums) {
-		int n = nums.length;
-		int len[] = new int[n];
-		int max = 0;
-
-		for (int i = 0; i < n; i++) {
-			len[i] = 1;
-		}
-
-		for (int i = 1; i < n; i++) {
-			for (int j = 0; j < i; j++) {
-				if (nums[i] > nums[j]) {
-					if (len[i] < len[j] + 1) {
-						len[i] = len[j] + 1;
-					}
-				}
-			}
-		}
-
-		System.out.println(Arrays.toString(len));
-
-		for (int i = 0; i < n; i++) {
-			if (max < len[i]) {
-				max = len[i];
-			}
-		}
-
-		return max;
-
-	}
-
+        int nottaken = lengthofLIS(nums, previndex, curpos + 1, memo);
+        memo[previndex + 1][curpos] = Math.max(taken, nottaken);
+        return memo[previndex + 1][curpos];
+    }
 }
