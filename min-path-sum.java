@@ -16,67 +16,33 @@ Explanation: Because the path 1→3→1→1→1 minimizes the sum.*/
 
 //Recursive Solution : Bottom Up
 
-public class MinPathSum {
-	
-	
+public class mps {
 
 	public static void main(String[] args) {
-		int matrix[][] = {
-				{1,3,1},{1,5,1},{4,2,1}
-		};
 		
-		int col = matrix[0].length;
-		int row = matrix.length;
+		int grid[][] = {{1,3,1},{1,5,1},{4,2,1}};
 		
-		System.out.println(mps(matrix, 0, 0, row, col));
-
-
+		if(grid == null || grid.length == 0 || grid[0].length == 0) 
+          System.out.println("0"); 
+        
+       
+       System.out.println(helper(grid, 0, 0));
+		
+		
 	}
 	
-	static int mps(int[][] matrix,int i,int j,int row,int col) {
-		System.out.println( " " + "i "+i +" j "+j);
-	
-		
-		
-		if(i == row-1 && j == col-1) {
-			return matrix[i][j];
-		}
-		
-		if(i <row-1 && j < col-1) {
-		
-		
+	static int helper(int[][] grid, int i, int j) {
+        if(i >= grid.length || j >= grid[0].length) return Integer.MAX_VALUE;
+        if(i == grid.length-1 && j == grid[0].length-1) return grid[i][j];
 
-		int right = matrix[i][j] + mps(matrix, i+1, j, row, col);
-		
-	
-	
-
-		int down = matrix[i][j] + mps(matrix, i, j+1, row, col);
-		
-
-		
-		return Math.min(right, down);
-		
-		}
-		
-		
-		if(i<row-1) {
-			
-			return matrix[i][j]+ mps(matrix, i+1 , j, row, col);
-			
-			
-		}
-		
-		if(j<col-1) {
-			return matrix[i][j]+ mps(matrix, i, j+1, row, col);
-		}
-		
-		return 0;
-	}
+        return   grid[i][j] + Math.min(helper(grid, i, j+1), helper(grid, i+1, j));
+       
+    }
 
 }
 
-//Top Down
+
+//Top Down Recursive
 class Solution {
     public int minPathSum(int[][] grid) {
         return  mps(grid,grid.length-1,grid[0].length-1);
