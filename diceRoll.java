@@ -25,6 +25,6 @@ class Solution {
 			
 		}
 		
-		return result;
+		return result % 1000000007;
 	}
 }
