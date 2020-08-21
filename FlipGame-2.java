@@ -65,3 +65,41 @@ public class FlipGame {
 	}
 }
 
+//Memoization:
+import java.util.HashMap;
+import java.util.Map;
+
+public class FlipGame {
+
+	public static void main(String[] args) {
+
+		String str = "++++++";
+		Map<String, Boolean> map = new HashMap<String, Boolean>();
+		System.out.println(flipGame(str, map));
+
+	}
+
+	static Boolean flipGame(String str, Map<String, Boolean> map) {
+
+		if (str == null || str.length() < 2)
+			return false;
+
+		if (map.containsKey(str)) {
+			return map.get(str);
+		}
+
+		for (int i = 0; i < str.length() - 1; i++) {
+			if (str.charAt(i) == '+' && str.charAt(i + 1) == '+') {
+				String nextState = str.substring(0, i) + "--" + str.substring(i + 2);
+
+				if (!flipGame(nextState, map)) {
+					map.put(str, true);
+					return true;
+				}
+			}
+		}
+
+		map.put(str, false);
+		return false;
+	}
+}
