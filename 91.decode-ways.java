@@ -47,18 +47,37 @@
 // @lc code=start
 import java.util.Arrays;
 class Solution {
-    //Bottom up solution
     public int numDecodings(String s) {
-        return decode(s);
+        int[] memo = new int[s.length()+1];
+        Arrays.fill(memo,-1);
+        return decode(s,0,memo);
     }
  
     //DFS approach:
-    static int decode(String s){
-    
-        int[] dp = new int[s.length()+1];
-        Arrays.fill(dp,-1);
-   
+    static int decode(String s,int i,int[] memo){
+        
+        if(memo[i]!=-1){
+            return memo[i];
+        }
 
+        if(s.length()==i){
+            return 1;
+        }      
+
+        if(s.charAt(i)=='0'){
+            return 0;
+        }
+
+        int ways = 0;
+        
+        ways = ways + decode(s,i+1,memo);
+
+        if(i<s.length()-1 && (Integer.parseInt(s.substring(i,i+2))<=26)){
+            ways = ways + decode(s,i+2,memo);
+        }
+
+        memo[i] = ways; 
+        return ways;
     }
 }
 // @lc code=end
