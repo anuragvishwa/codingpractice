@@ -48,11 +48,37 @@
 import java.util.Arrays;
 class Solution {
     public int numDecodings(String s) {
-        int[] memo = new int[s.length()+1];
-        Arrays.fill(memo,-1);
-        return decode(s,0,memo);
+       // int[] memo = new int[s.length()+1];
+       // Arrays.fill(memo,-1);
+       // return decode(s,0,memo);
+       return decodeDP(s);
     }
  
+
+    static int decodeDP(String s){
+
+        int lookup[] = new int[s.length() + 1];
+        //dp[0] means an empty string will have 1 way to decode, 
+        //dp[1] means the way to decode a string of size 1
+        lookup[0] = 1;
+        lookup[1] = s.charAt(0) == '0'? 0:1;
+        
+        for (int i = 2; i <= s.length(); i++) {
+            int oneDigit = Integer.parseInt(s.substring(i-1, i));
+            int twoDigit = Integer.parseInt(s.substring(i-2, i));
+            if (oneDigit >= 1) {
+                lookup[i] += lookup[i-1];
+            }
+            if (twoDigit >= 10 && twoDigit <= 26) {
+                lookup[i] += lookup[i-2];
+            }
+        }
+        
+        return lookup[s.length()];
+
+        
+    }
+
     //DFS approach:
     static int decode(String s,int i,int[] memo){
         
