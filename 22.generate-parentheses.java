@@ -19,7 +19,7 @@ class Solution {
     }
 
     static void addParens(List<String> list,int leftRem,int rightRem,char[] c,int index){
-        
+        //Backtracking condition
         if(leftRem<0 || rightRem<leftRem){
             return;
         }
