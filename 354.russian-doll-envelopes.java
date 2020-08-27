@@ -43,26 +43,61 @@ import java.util.*;
 class Solution {
     public int maxEnvelopes(int[][] envelopes) {
         Arrays.sort(envelopes, Comparator.comparingInt(a -> a[0]));
-        return max(envelopes);
+        //return max(envelopes);
+        return maxBinary(envelopes);
     }
-    static int max(int[][] matrix) {
+    //Using binary search:
+    static int maxBinary(int[][] matrix) {
 
-        if(matrix.length==0){
-            return 0;
-        }
-		int arr[] = new int[matrix.length];
-		Arrays.fill(arr, 1);
+		int n = matrix.length;
+        int[] I = new int[n + 1];
+		Arrays.fill(I, Integer.MAX_VALUE);
+		I[0] = Integer.MIN_VALUE;
 
-		for (int i = 1; i < matrix.length; i++) {
-			for (int j = 0; j < i; j++) {
-				if (matrix[i][1] > matrix[j][1] && matrix[i][0] > matrix[j][0] && arr[i] < arr[j] + 1) {
-					arr[i] = arr[j] + 1;
+		int lisLength = 0; // keeps the maximum position where a data is inserted
+
+		for (int i = 0; i < n; i++) {
+			int low, high, mid;
+			low = 0;
+			high = lisLength;
+
+			while (low <= high) {
+				mid = (low + high) / 2;
+				if (I[mid] < matrix[i][1]) {
+					low = mid + 1;
+				} else {
+					high = mid - 1;
 				}
+			}
+
+			I[low] = matrix[i][1];
+			if (lisLength < low) {
+				lisLength = low;
 			}
 		}
 
-		return Arrays.stream(arr).max().getAsInt();
-	}
+		return lisLength;
+
+    }
+    //Using DP
+    // static int max(int[][] matrix) {
+
+    //     if(matrix.length==0){
+    //         return 0;
+    //     }
+	// 	int arr[] = new int[matrix.length];
+	// 	Arrays.fill(arr, 1);
+
+	// 	for (int i = 1; i < matrix.length; i++) {
+	// 		for (int j = 0; j < i; j++) {
+	// 			if (matrix[i][1] > matrix[j][1] && matrix[i][0] > matrix[j][0] && arr[i] < arr[j] + 1) {
+	// 				arr[i] = arr[j] + 1;
+	// 			}
+	// 		}
+	// 	}
+
+	// 	return Arrays.stream(arr).max().getAsInt();
+	// }
 
 }
 // @lc code=end
