@@ -35,9 +35,35 @@
 import java.util.*;
 class Solution {
     public int numSquares(int n) {
-        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-        return perfectSquare(n,map);
+      //  Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+      //  return perfectSquare(n,map);
+
+      return perfectSquare(n);
     }
+
+    static int perfectSquare(int n) {
+
+        if(n < 4) return n;
+
+		int dp[] = new int[n + 1];
+		Arrays.fill(dp, Integer.MAX_VALUE);
+
+		dp[0] = 0;
+		dp[1] = 1;
+		dp[2] = 2;
+		dp[3] = 3;
+
+		for (int i = 4; i <= n; i++) {
+			for (int j = 1; j * j <= i; j++) {
+				dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
+			}
+		}
+
+		return dp[n];
+
+    }
+    
+
     static int perfectSquare(int n, Map<Integer, Integer> map) {
 
 		if (map.containsKey(n)) {
