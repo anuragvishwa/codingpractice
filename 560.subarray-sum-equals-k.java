@@ -39,36 +39,27 @@ import java.util.*;
 
 class Solution {
     public int subarraySum(int[] nums, int k) {
-        int[] prefix = new int[nums.length];
 		
-		int n = nums.length;
-		
-		prefix[0]=nums[0];
-		
-		for(int i=1;i<n;i++){
-			prefix[i]=nums[i]+prefix[i-1];
-		}	
-		
-		int count=0;
-		
-		for(int i=0;i<n;i++){
-			for(int j=i;j<n;j++){
-				if(i==0 && prefix[j]==k){
-					count++;
-				}
-				else{
-					if(i>0 && prefix[j]-prefix[i-1]==k){
-						count++;
-						
-					}
-				}
-			}			
-			
-		}
-		
-	return count;	
+		/*If anyone is confused why the count was increased by myMap[ curr - k ] instead of just count+=1 . It was because prefix sum can be same because of some negative values in the array. so out next occuring k will also pair  with those negative values also . 
+
+
+consider this case A : [3 4  7    2   -3   1   4   2   1 ]  
+                       preSum : [3 7 14 16 13 14 18 20 21]
+
+
+you can see 14 occured twice  because of the subsequence [2 -3 1] their sum is 0. so When you are at the final index with value 1 . you have curr - k = 21 - 7 = 14 . you check for 14 it has occured twice . so you need to consider subsequences [2 -3 1 4 2 1] and [4 2 1] . Hope this helps
+*/
+int count = 0, sum = 0;
+HashMap < Integer, Integer > map = new HashMap < > ();
+map.put(0, 1);
+for (int i = 0; i < nums.length; i++) {
+	sum += nums[i];
+	if (map.containsKey(sum - k))
+		count += map.get(sum - k);
+	map.put(sum, map.getOrDefault(sum, 0) + 1);
+}
+return count;
 	}
-               
             }
     
     
