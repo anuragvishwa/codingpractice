@@ -86,33 +86,39 @@
 // @lc code=start
 class Solution {
     public int openLock(String[] deadends, String target) {
-        Queue<String> q = new LinkedList<>();
-        Set<String> visited = new HashSet<>(Arrays.asList(deadends));
-        int depth = -1;
-        q.addAll(Arrays.asList("0000"));
-        while(!q.isEmpty()) {
-            depth++;
-            int size = q.size();
-            for(int i = 0; i < size; i++) {
-                String node = q.poll();
-                if(node.equals(target))
-                    return depth;
-                if(visited.contains(node))
-                    continue;
-                visited.add(node);
-                q.addAll(getSuccessors(node));
+        Set<String> begin = new HashSet<>();
+        Set<String> end = new HashSet<>();
+        Set<String> deads = new HashSet<>(Arrays.asList(deadends));
+        begin.add("0000");
+        end.add(target);
+        int level = 0;
+        Set<String> temp;
+        while(!begin.isEmpty() && !end.isEmpty()) {
+            if (begin.size() > end.size()) {
+                temp = begin;
+                begin = end;
+                end = temp;
             }
+            temp = new HashSet<>();
+            for(String s : begin) {
+                if(end.contains(s)) return level;
+                if(deads.contains(s)) continue;
+                deads.add(s);
+                StringBuilder sb = new StringBuilder(s);
+                for(int i = 0; i < 4; i ++) {
+                    char c = sb.charAt(i);
+                    String s1 = sb.substring(0, i) + (c == '9' ? 0 : c - '0' + 1) + sb.substring(i + 1);
+                    String s2 = sb.substring(0, i) + (c == '0' ? 9 : c - '0' - 1) + sb.substring(i + 1);
+                    if(!deads.contains(s1))
+                        temp.add(s1);
+                    if(!deads.contains(s2))
+                        temp.add(s2);
+                }
+            }
+            level ++;
+            begin = temp;
         }
         return -1;
-    }
-	
-    private static List<String> getSuccessors(String str) {
-        List<String> res = new LinkedList<>();
-        for (int i = 0; i < str.length(); i++) {
-            res.add(str.substring(0, i) + (str.charAt(i) == '0' ? 9 :  str.charAt(i) - '0' - 1) + str.substring(i+1));
-            res.add(str.substring(0, i) + (str.charAt(i) == '9' ? 0 :  str.charAt(i) - '0' + 1) + str.substring(i+1));
-        }
-        return res;
     }
 }
 
