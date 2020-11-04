@@ -56,25 +56,44 @@
 // @lc code=start
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
-        Set<String> wordDictSet=new HashSet(wordDict);
-        Queue<Integer> queue = new LinkedList<>();
-        int[] visited = new int[s.length()];
-        queue.add(0);
-        while (!queue.isEmpty()) {
-            int start = queue.remove();
-            if (visited[start] == 0) {
-                for (int end = start + 1; end <= s.length(); end++) {
-                    if (wordDictSet.contains(s.substring(start, end))) {
-                        queue.add(end);
-                        if (end == s.length()) {
-                            return true;
-                        }
-                    }
-                }
-                visited[start] = 1;
-            }
-        }
-        return false;
+        Set<String> set = new HashSet<String>();
+		Map<Integer,Boolean> map = new HashMap<Integer,Boolean>();
+		
+		
+		for(String word: wordDict){
+			set.add(word);
+		}
+		
+		return canBreak(s,set,0,map);
+		
+
+	}
+	
+	 Boolean canBreak(String s,Set<String> words,int idx,Map<Integer,Boolean> map){
+		
+		if( idx == s.length()){
+			return true;
+		}
+		
+		if(map.containsKey(idx))
+			return map.get(idx);
+		//System.out.println(map.toString());
+		for(int i=idx+1;i<=s.length();i++){
+			if(words.contains(s.substring(idx,i))){
+				//System.out.println(s.substring(idx,i));
+				if(canBreak(s,words,i,map)){
+					map.put(idx,true);
+					
+					return true;
+				}
+			}
+		}
+		
+		map.put(idx,false);
+		return false;
+		
+		
+		
     }
 }
 // @lc code=end
