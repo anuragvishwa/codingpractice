@@ -37,47 +37,44 @@
 // @lc code=start
 class Solution {
     public String minWindow(String s, String t) {
-        int windowStart = 0;
-        int subStringStart = 0;
-        int minLength = s.length() + 1;
-        int matched = 0;
+        if(t.length()> s.length()) return "";
         Map<Character, Integer> map = new HashMap<>();
-        
-        for (char c: t.toCharArray()) {
-            map.put(c, map.getOrDefault(c, 0) + 1);
+        for(char c : t.toCharArray()){
+            map.put(c, map.getOrDefault(c,0) + 1);
         }
+        int counter = map.size();
         
-        for (int i=0; i<s.length(); i++) {
-            char rightChar = s.charAt(i);
-            
-            if (map.containsKey(rightChar)) {
-                map.put(rightChar, map.get(rightChar) - 1);
-                
-                if (map.get(rightChar) >= 0) {
-                    matched++;
-                }
+        int begin = 0, end = 0;
+        int head = 0;
+        int len = Integer.MAX_VALUE;
+        
+        while(end < s.length()){
+            char c = s.charAt(end);
+            if( map.containsKey(c) ){
+                map.put(c, map.get(c)-1);
+                if(map.get(c) == 0) counter--;
             }
+            end++;
             
-            while (matched == t.length()) {
-                if (minLength > i - windowStart + 1) {
-                    minLength = i - windowStart + 1;
-                    subStringStart = windowStart;
-                }
-                
-                char leftChar = s.charAt(windowStart);
-                if (map.containsKey(leftChar)) {
-                    if (map.get(leftChar) == 0) {
-                        matched--;
+            while(counter == 0){
+                char tempc = s.charAt(begin);
+                if(map.containsKey(tempc)){
+                    map.put(tempc, map.get(tempc) + 1);
+                    if(map.get(tempc) > 0){
+                        counter++;
                     }
-                    
-                    map.put(leftChar, map.get(leftChar) + 1);
                 }
-                
-                windowStart++;
+                if(end-begin < len){
+                    len = end - begin;
+                    head = begin;
+                }
+                begin++;
             }
+            
         }
-        
-        return minLength > s.length() ? "" : s.substring(subStringStart, subStringStart + minLength);
+        if(len == Integer.MAX_VALUE) return "";
+        return s.substring(head, head+len);
+    
     }
 }
 // @lc code=end
